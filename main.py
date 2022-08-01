@@ -1,8 +1,7 @@
 import requests
 
 token = 'c6d39b44191b42c930dcacd0e008ec335fbb0f20'
-url = 'https://api-ssl.bitly.com/v4/bitlinks'
-
+# url = 'https://api-ssl.bitly.com/v4/bitlinks'
 
 def shorten_link(token, url):
     headers = {'Authorization': f'Bearer {token}'}
@@ -12,6 +11,9 @@ def shorten_link(token, url):
 
 
 def main():
+    print('Введите ссылку которую хотите уменьшить:')
+    url = input()
+
     # shorten_link(token, url)
     print('Битлинк', shorten_link(token, url))
     # url2 = 'https://api-ssl.bitly.com/v4/user'
