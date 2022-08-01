@@ -1,39 +1,46 @@
 import requests
+import os
+from dotenv import load_dotenv
 
-token = 'c6d39b44191b42c930dcacd0e008ec335fbb0f20'
+TOKEN = os.getenv('token')
 
-
-# url = 'https://api-ssl.bitly.com/v4/bitlinks'
 
 def shorten_link(token, url):
+    api_url = 'https://api-ssl.bitly.com/v4/bitlinks'
     headers = {'Authorization': f'Bearer {token}'}
-    body = {"long_url": "https://github.com/maxim-pekov"}
-    response2 = requests.post(url, json=body, headers=headers)
-    return response2.json()['link']
+    body = {"long_url": f"{url}"}
+    response = requests.post(api_url, json=body, headers=headers)
+    response.raise_for_status()
+    return response.json()['link']
+
+
+def total_clicks(token, bitlink):
+    api_url = f'https://api-ssl.bitly.com/v4/bitlinks/{bitlink}/clicks/summary'
+    headers = {'Authorization': f'Bearer {token}'}
+    response = requests.get(api_url, headers=headers)
+    response.raise_for_status()
+    return response.text
 
 
 def main():
-    print('Введите ссылку которую хотите уменьшить:')
+    load_dotenv()
+    TOKEN = os.getenv('token')
+    print('Введите ссылку:')
     url = input()
-    # bitlink = ''
-    try:
-        bitlink = shorten_link(token, url)
-        print('Битлинк', bitlink)
-
-    except requests.exceptions.MissingSchema:
-        print('Вы ввели неправильный URL')
-    except requests.exceptions.HTTPError as error:
-        exit("Can't get data from server:\n{0}".format(error))
-
-
-# shorten_link(token, url)
-# url2 = 'https://api-ssl.bitly.com/v4/user'
-#
-# headers = {
-#     'Authorization': 'Bearer c6d39b44191b42c930dcacd0e008ec335fbb0f20'
-# }
-# response = requests.get(url, headers=headers)
-# response.raise_for_status()
+    if 'bit.ly' in url:
+        try:
+            t = total_clicks(TOKEN, url)
+            print('Битлинк', t)
+        except requests.exceptions.HTTPError as error:
+            exit("Can't get data from server:\n{0}".format(error))
+    else:
+        try:
+            bitlink = shorten_link(TOKEN, url)
+            print('Битлинк', bitlink)
+        except requests.exceptions.MissingSchema:
+            print('Вы ввели неправильный URL')
+        except requests.exceptions.HTTPError as error:
+            exit("Can't get data from server:\n{0}".format(error))
 
 
 if __name__ == '__main__':
