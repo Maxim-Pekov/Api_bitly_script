@@ -15,7 +15,7 @@ def shorten_link(token, url):
     return response.json()['link']
 
 
-def total_clicks(token, bitlink):
+def get_clicks(token, bitlink):
     url = urlparse(bitlink)
     short_bitlink = url.netloc + url.path
     api_url = f'https://api-ssl.bitly.com/v4/bitlinks/{short_bitlink}/clicks/summary'
@@ -28,7 +28,7 @@ def total_clicks(token, bitlink):
 def is_bitlink(TOKEN, url):
     if 'bit.ly' in url:
         try:
-            count_clicks = total_clicks(TOKEN, url)
+            count_clicks = get_clicks(TOKEN, url)
         except requests.exceptions.HTTPError as error:
             exit("Can't get data from server:\n{0}".format(error))
         return f'По вашей ссылке прошли {count_clicks} раз(а)'
