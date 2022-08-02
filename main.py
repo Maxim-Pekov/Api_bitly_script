@@ -17,7 +17,7 @@ def shorten_link(token, url):
 
 def get_clicks(token, bitlink):
     url = urlparse(bitlink)
-    short_bitlink = url.netloc + url.path
+    short_bitlink = f'{url.netloc}{url.path}'
     api_url = f'https://api-ssl.bitly.com/v4/bitlinks/{short_bitlink}/clicks/summary'
     headers = {'Authorization': f'Bearer {token}'}
     response = requests.get(api_url, headers=headers)
