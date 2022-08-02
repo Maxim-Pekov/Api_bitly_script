@@ -9,7 +9,7 @@ TOKEN = os.getenv('token')
 def shorten_link(token, url):
     api_url = 'https://api-ssl.bitly.com/v4/bitlinks'
     headers = {'Authorization': f'Bearer {token}'}
-    body = {"long_url": f"{url}"}
+    body = {"long_url": url}
     response = requests.post(api_url, json=body, headers=headers)
     response.raise_for_status()
     return response.json()['link']
