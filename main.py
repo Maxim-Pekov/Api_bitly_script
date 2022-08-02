@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from urllib.parse import urlparse
 
 TOKEN = os.getenv('token')
-#       https://bit.ly/3JkG0mU
+
 
 def shorten_link(token, url):
     api_url = 'https://api-ssl.bitly.com/v4/bitlinks'
@@ -41,10 +41,10 @@ def is_bitlink(TOKEN, url):
             exit("Can't get data from server:\n{0}".format(error))
         return f'Битлинк {bitlink}'
 
+
 def main():
     load_dotenv()
     TOKEN = os.getenv('token')
-    # print('Введите ссылку:''Введите ссылку:')
     url = input('Введите ссылку:').strip()
     print(is_bitlink(TOKEN, url))
 
