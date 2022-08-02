@@ -5,12 +5,15 @@ from urllib.parse import urlparse
 
 
 def shorten_link(token, url):
+    if is_bitlink(url):
+        return get_clicks(token, url)
     api_url = 'https://api-ssl.bitly.com/v4/bitlinks'
     headers = {'Authorization': f'Bearer {token}'}
     body = {"long_url": url}
     response = requests.post(api_url, json=body, headers=headers)
     response.raise_for_status()
-    return response.json()['link']
+    bitlink = response.json()['link']
+    return f'Битлинк: {bitlink}'
 
 
 def get_clicks(token, bitlink):
@@ -20,31 +23,23 @@ def get_clicks(token, bitlink):
     headers = {'Authorization': f'Bearer {token}'}
     response = requests.get(api_url, headers=headers)
     response.raise_for_status()
-    return response.json()['total_clicks']
+    count_clicks = response.json()['total_clicks']
+    return f'По вашей ссылке прошли {count_clicks} раз(а)'
 
 
-def is_bitlink(token, url):
-    if 'bit.ly' in url:
-        try:
-            count_clicks = get_clicks(token, url)
-        except requests.exceptions.HTTPError as error:
-            exit("Can't get data from server:\n{0}".format(error))
-        return f'По вашей ссылке прошли {count_clicks} раз(а)'
-    else:
-        try:
-            bitlink = shorten_link(token, url)
-        except requests.exceptions.MissingSchema:
-            return 'Вы ввели неправильный URL'
-        except requests.exceptions.HTTPError as error:
-            exit("Can't get data from server:\n{0}".format(error))
-        return f'Битлинк {bitlink}'
+def is_bitlink(url):
+    return bool('bit.ly' in url)
 
 
 def main():
     load_dotenv()
     BITLY_TOKEN = os.getenv('token')
     url = input('Введите ссылку:').strip()
-    print(is_bitlink(BITLY_TOKEN, url))
+    try:
+        link = shorten_link(BITLY_TOKEN, url)
+    except requests.exceptions.HTTPError as error:
+        exit(f"Can't get data from server:\n{error}")
+    print(link)
 
 
 if __name__ == '__main__':
