@@ -19,18 +19,15 @@ def total_clicks(token, bitlink):
     headers = {'Authorization': f'Bearer {token}'}
     response = requests.get(api_url, headers=headers)
     response.raise_for_status()
-    return response.text
+    return response.json()['total_clicks']
 
 
-def main():
-    load_dotenv()
-    TOKEN = os.getenv('token')
-    print('Введите ссылку:')
-    url = input()
+def is_bitlink(TOKEN, url):
     if 'bit.ly' in url:
         try:
             t = total_clicks(TOKEN, url)
-            print('Битлинк', t)
+            print(f'По вашей ссылке прошли {t} раз(а)')
+            # print(f'По вашей ссылке прошли {t["total_clicks"]} раз(а)')
         except requests.exceptions.HTTPError as error:
             exit("Can't get data from server:\n{0}".format(error))
     else:
@@ -41,6 +38,14 @@ def main():
             print('Вы ввели неправильный URL')
         except requests.exceptions.HTTPError as error:
             exit("Can't get data from server:\n{0}".format(error))
+
+
+def main():
+    load_dotenv()
+    TOKEN = os.getenv('token')
+    print('Введите ссылку:')
+    url = input()
+    is_bitlink(TOKEN, url)
 
 
 if __name__ == '__main__':
