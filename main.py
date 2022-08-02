@@ -5,8 +5,6 @@ from urllib.parse import urlparse
 
 
 def shorten_link(token, url):
-    if is_bitlink(url):
-        return get_clicks(token, url)
     api_url = 'https://api-ssl.bitly.com/v4/bitlinks'
     headers = {'Authorization': f'Bearer {token}'}
     body = {"long_url": url}
@@ -31,12 +29,18 @@ def is_bitlink(url):
     return bool('bit.ly' in url)
 
 
+def choice_link(token, url):
+    if is_bitlink(url):
+        return get_clicks(token, url)
+    return shorten_link(token, url)
+
+
 def main():
     load_dotenv()
     BITLY_TOKEN = os.getenv('token')
     url = input('Введите ссылку:').strip()
     try:
-        link = shorten_link(BITLY_TOKEN, url)
+        link = choice_link(BITLY_TOKEN, url)
     except requests.exceptions.HTTPError as error:
         exit(f"Can't get data from server:\n{error}")
     print(link)
