@@ -23,16 +23,16 @@ def get_clicks(token, bitlink):
     return response.json()['total_clicks']
 
 
-def is_bitlink(TOKEN, url):
+def is_bitlink(token, url):
     if 'bit.ly' in url:
         try:
-            count_clicks = get_clicks(TOKEN, url)
+            count_clicks = get_clicks(token, url)
         except requests.exceptions.HTTPError as error:
             exit("Can't get data from server:\n{0}".format(error))
         return f'По вашей ссылке прошли {count_clicks} раз(а)'
     else:
         try:
-            bitlink = shorten_link(TOKEN, url)
+            bitlink = shorten_link(token, url)
         except requests.exceptions.MissingSchema:
             return 'Вы ввели неправильный URL'
         except requests.exceptions.HTTPError as error:
