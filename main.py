@@ -50,7 +50,7 @@ def main():
     try:
         link = choice_link(BITLY_TOKEN, url)
     except requests.exceptions.HTTPError as error:
-        exit(f"Can't get data from server:\n{error}")
+        print(f"Can't get data from server:\n{error}")
     print(link)
 
 
