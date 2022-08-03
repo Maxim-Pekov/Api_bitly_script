@@ -31,10 +31,7 @@ def is_bitlink(token, bitlink):
     api_url = f'https://api-ssl.bitly.com/v4/bitlinks/{short_bitlink}'
     headers = {'Authorization': f'Bearer {token}'}
     response = requests.get(api_url, headers=headers)
-    if response.status_code == 404:
-        return False
-    response.raise_for_status()
-    return True
+    return response.ok
 
 
 def choice_link(token, url):
