@@ -4,7 +4,7 @@ This is a link shortener script.
 
 ## How does he work:
 
-1. Write text ___token = "c0c0c0"___ in new directory .env, where ___c0c0c0___ will be your bit.lu token
+1. Write text ___BITLY_TOKEN = "c0c0c0"___ in new directory .env, where ___c0c0c0___ will be your bit.lu token
 2. run main.py
 3. In terminal, you will see 'Введите ссылку:'
 4. If you write ony URL, without bit.ly. Script will write you short link.
@@ -31,8 +31,8 @@ Use these commands to start a project on your hardware.
 
 - [ ]    `pip install -r requirements.txt`
 
-5. Write text ___token = "your_token"___ in new directory .env, where ___your_token___ will be your bit.lu token
-- [ ]    `token = "your_token"`
+5. Write text ___BITLY_TOKEN = "your_token"___ in new directory __.env__, where ___your_token___ will be your bit.ly token
+- [ ]    `BITLY_TOKEN = "your_token"`
 
 5. Run this command
 
