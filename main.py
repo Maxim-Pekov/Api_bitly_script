@@ -11,7 +11,7 @@ def shorten_link(token, url):
     response = requests.post(api_url, json=body, headers=headers)
     response.raise_for_status()
     bitlink = response.json()['link']
-    return f'Битлинк: {bitlink}'
+    return bitlink
 
 
 def get_clicks(token, bitlink):
@@ -22,7 +22,7 @@ def get_clicks(token, bitlink):
     response = requests.get(api_url, headers=headers)
     response.raise_for_status()
     count_clicks = response.json()['total_clicks']
-    return f'По вашей ссылке прошли {count_clicks} раз(а)'
+    return count_clicks
 
 
 def is_bitlink(token, bitlink):
@@ -34,21 +34,20 @@ def is_bitlink(token, bitlink):
     return response.ok
 
 
-def choice_link(token, url):
-    if is_bitlink(token, url):
-        return get_clicks(token, url)
-    return shorten_link(token, url)
-
-
 def main():
     load_dotenv()
-    BITLY_TOKEN = os.getenv('token')
+    token = os.getenv('BITLY_TOKEN')
     url = input('Введите ссылку:').strip()
-    try:
-        link = choice_link(BITLY_TOKEN, url)
-    except requests.exceptions.HTTPError as error:
-        print(f"Can't get data from server:\n{error}")
-    print(link)
+    if is_bitlink(token, url):
+        try:
+            print(f'По вашей ссылке прошли {get_clicks(token, url)} раз(а)')
+        except requests.exceptions.HTTPError as error:
+            print(f"Can't get data from server:\n{error}")
+    else:
+        try:
+            print(f'Битлинк: {shorten_link(token, url)}')
+        except requests.exceptions.HTTPError as error:
+            print(f"Can't get data from server:\n{error}")
 
 
 if __name__ == '__main__':
