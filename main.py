@@ -38,16 +38,13 @@ def main():
     load_dotenv()
     token = os.getenv('BITLY_TOKEN')
     url = input('Введите ссылку:').strip()
-    if is_bitlink(token, url):
-        try:
+    try:
+        if is_bitlink(token, url):
             print(f'По вашей ссылке прошли {get_clicks(token, url)} раз(а)')
-        except requests.exceptions.HTTPError as error:
-            print(f"Can't get data from server:\n{error}")
-    else:
-        try:
+        else:
             print(f'Битлинк: {shorten_link(token, url)}')
-        except requests.exceptions.HTTPError as error:
-            print(f"Can't get data from server:\n{error}")
+    except requests.exceptions.HTTPError as error:
+        print(f"Can't get data from server:\n{error}")
 
 
 if __name__ == '__main__':
