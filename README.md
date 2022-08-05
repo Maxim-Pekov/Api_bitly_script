@@ -31,7 +31,7 @@ Use these commands to start a project on your hardware.
 
 - [ ]    `pip install -r requirements.txt`
 
-5. Write text ___BITLY_TOKEN = "your_token"___ in new directory __.env__, where ___your_token___ will be your bit.ly token
+5. Write text ___BITLY_TOKEN = "your_token"___ in new file in main directory __.env__, where ___your_token___ will be your bit.ly token
 - [ ]    `BITLY_TOKEN = "your_token"`
 
 5. Run this command
