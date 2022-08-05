@@ -13,7 +13,6 @@ def createParser():
                     'этой ссылке')
     parser.add_argument('url', help='Передаваемый адрес URL')
     args = parser.parse_args()
-    print(args.url)
     return args.url
 
 
@@ -51,8 +50,6 @@ def main():
     load_dotenv()
     token = os.getenv('BITLY_TOKEN')
     parser = createParser()
-    # namespace = parser.parse_args(sys.argv[1:])
-    # url = input('Введите ссылку:').strip()
     try:
         if is_bitlink(token, parser):
             print(f'По вашей ссылке прошли {get_clicks(token, parser)} раз(а)')
