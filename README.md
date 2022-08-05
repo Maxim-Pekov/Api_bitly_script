@@ -25,7 +25,7 @@ Use these commands to start a project on your hardware.
 - [ ]    `python -m venv venv`
 2. Activate venv    
 - [ ] Windows  `.\venv\Scripts\activate`
-- [ ] Linux, Mac  `source ./.venv/bin/activate`
+- [ ] Linux, Mac  `source ./venv/bin/activate`
 3. Go to the ./Api_bitly_script directory
 4. Install requirements
 
