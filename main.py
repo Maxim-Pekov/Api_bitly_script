@@ -1,7 +1,20 @@
 import requests
 import os
+import argparse
+
 from dotenv import load_dotenv
 from urllib.parse import urlparse
+
+
+def createParser():
+    parser = argparse.ArgumentParser(
+        description='Если передадите аргументом с запуском программы ссылку, то программа вернет короткую ссылку на '
+                    'данный URL. Если передать уже сгенерированную ссылку, то программа вернет кол-во переходов по '
+                    'этой ссылке')
+    parser.add_argument('url', help='Передаваемый адрес URL')
+    args = parser.parse_args()
+    print(args.url)
+    return args.url
 
 
 def shorten_link(token, url):
@@ -37,12 +50,14 @@ def is_bitlink(token, bitlink):
 def main():
     load_dotenv()
     token = os.getenv('BITLY_TOKEN')
-    url = input('Введите ссылку:').strip()
+    parser = createParser()
+    # namespace = parser.parse_args(sys.argv[1:])
+    # url = input('Введите ссылку:').strip()
     try:
-        if is_bitlink(token, url):
-            print(f'По вашей ссылке прошли {get_clicks(token, url)} раз(а)')
+        if is_bitlink(token, parser):
+            print(f'По вашей ссылке прошли {get_clicks(token, parser)} раз(а)')
         else:
-            print(f'Битлинк: {shorten_link(token, url)}')
+            print(f'Битлинк: {shorten_link(token, parser)}')
     except requests.exceptions.HTTPError as error:
         print(f"Can't get data from server:\n{error}")
 
