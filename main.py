@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from urllib.parse import urlparse
 
 
-def create_parser():
+def get_parse_url():
     parser = argparse.ArgumentParser(
         description='Если передадите аргументом с запуском программы ссылку, то программа вернет короткую ссылку на '
                     'данный URL. Если передать уже сгенерированную ссылку, то программа вернет кол-во переходов по '
@@ -49,12 +49,12 @@ def is_bitlink(token, bitlink):
 def main():
     load_dotenv()
     token = os.getenv('BITLY_TOKEN')
-    parser = createParser()
+    url = get_parse_url()
     try:
-        if is_bitlink(token, parser):
-            print(f'По вашей ссылке прошли {get_clicks(token, parser)} раз(а)')
+        if is_bitlink(token, url):
+            print(f'По вашей ссылке прошли {get_clicks(token, url)} раз(а)')
         else:
-            print(f'Битлинк: {shorten_link(token, parser)}')
+            print(f'Битлинк: {shorten_link(token, url)}')
     except requests.exceptions.HTTPError as error:
         print(f"Can't get data from server:\n{error}")
 
