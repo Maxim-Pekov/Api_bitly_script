@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from urllib.parse import urlparse
 
 
-def createParser():
+def create_parser():
     parser = argparse.ArgumentParser(
         description='Если передадите аргументом с запуском программы ссылку, то программа вернет короткую ссылку на '
                     'данный URL. Если передать уже сгенерированную ссылку, то программа вернет кол-во переходов по '
