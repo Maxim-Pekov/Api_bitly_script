@@ -50,8 +50,7 @@ def main():
     token = os.getenv('BITLY_TOKEN')
     parser = create_parser()
     argument_url = parser.parse_args()
-    print(argument_url)
-    url = namespace.url
+    url = argument_url.url
     try:
         if is_bitlink(token, url):
             print(f'По вашей ссылке прошли {get_clicks(token, url)} раз(а)')
