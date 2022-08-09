@@ -6,14 +6,13 @@ from dotenv import load_dotenv
 from urllib.parse import urlparse
 
 
-def get_parse_url():
+def create_parser():
     parser = argparse.ArgumentParser(
         description='Если передадите аргументом с запуском программы ссылку, то программа вернет короткую ссылку на '
                     'данный URL. Если передать уже сгенерированную ссылку, то программа вернет кол-во переходов по '
                     'этой ссылке')
     parser.add_argument('url', help='Передаваемый адрес URL')
-    args = parser.parse_args()
-    return args.url
+    return parser
 
 
 def shorten_link(token, url):
@@ -49,7 +48,9 @@ def is_bitlink(token, bitlink):
 def main():
     load_dotenv()
     token = os.getenv('BITLY_TOKEN')
-    url = get_parse_url()
+    parser = create_parser()
+    namespace = parser.parse_args()
+    url = namespace.url
     try:
         if is_bitlink(token, url):
             print(f'По вашей ссылке прошли {get_clicks(token, url)} раз(а)')
