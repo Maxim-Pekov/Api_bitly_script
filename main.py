@@ -49,8 +49,8 @@ def main():
     load_dotenv()
     token = os.getenv('BITLY_TOKEN')
     parser = create_parser()
-    argument_url = parser.parse_args()
-    url = argument_url.url
+    args = parser.parse_args()
+    url = args.url
     try:
         if is_bitlink(token, url):
             print(f'По вашей ссылке прошли {get_clicks(token, url)} раз(а)')
